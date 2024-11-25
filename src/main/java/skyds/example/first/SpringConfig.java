@@ -4,11 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
-import skyds.example.first.repository.JdbcMemberRepository;
-import skyds.example.first.repository.JdbcTemplateMemberRepository;
-import skyds.example.first.repository.MemberRepository;
-import skyds.example.first.repository.MemoryMemberRepository;
+import skyds.example.first.repository.*;
 import skyds.example.first.service.MemberService;
+import skyds.example.first.service.SqlService;
 
 import javax.sql.DataSource;
 
@@ -32,5 +30,18 @@ public class SpringConfig {
 //        return new JdbcMemberRepository();
 //        return new JdbcTemplateMemberRepository();
         return new JdbcTemplateMemberRepository(dataSource);
+    }
+
+    @Bean
+    public SqlService sqlService(){
+        return new SqlService(sqlRepository());
+    }
+
+    @Bean
+    public SqlRepository sqlRepository() {
+//        return new MemoryMemberRepository();
+//        return new JdbcMemberRepository();
+//        return new JdbcTemplateMemberRepository();
+        return new JdbcTemplateSqlRepository(dataSource);
     }
 }
